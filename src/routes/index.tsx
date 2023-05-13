@@ -94,7 +94,7 @@ export default component$(() => {
                   href="/collections"
                   class="inline-block rounded-md border px-8 py-3 text-center font-medium hover:bg-gray-100"
                 >
-                  View Collection
+                  View Collections
                 </Link>
               </div>
             </div>

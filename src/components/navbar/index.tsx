@@ -38,7 +38,7 @@ export const Navbar = component$(() => {
                 <span class="sr-only">Ecommerce</span>
                 <img
                   class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  src="https://qwik.builder.io/logos/qwik-logo.svg"
                   alt=""
                   height={32}
                   width={"auto"}
