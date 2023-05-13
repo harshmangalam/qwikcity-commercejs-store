@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { NavLink } from "./nav-link";
 
 export const Navbar = component$(() => {
   return (
@@ -33,8 +34,8 @@ export const Navbar = component$(() => {
             </button>
 
             <div class="ml-4 flex lg:ml-0">
-              <a href="#">
-                <span class="sr-only">Your Company</span>
+              <Link href="/">
+                <span class="sr-only">Ecommerce</span>
                 <img
                   class="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -42,47 +43,19 @@ export const Navbar = component$(() => {
                   height={32}
                   width={"auto"}
                 />
-              </a>
+              </Link>
             </div>
 
             <div class="hidden lg:ml-8 lg:block lg:self-stretch">
               <div class="flex h-full space-x-8">
-                <Link
-                  href="/products"
-                  class="border-transparent text-gray-700 hover:text-gray-800 relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
-                  aria-expanded="false"
-                >
-                  Products
-                </Link>
-                <Link
-                  href="/collections"
-                  class="border-transparent text-gray-700 hover:text-gray-800 relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
-                  aria-expanded="false"
-                >
-                  Collections
-                </Link>
+                <NavLink href="/products" name="Products" />
+                <NavLink href="/collections" name="Collections" />
               </div>
             </div>
 
             <div class="ml-auto flex items-center">
-              <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                <a
-                  href="#"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >
-                  Sign in
-                </a>
-                <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
-                <a
-                  href="#"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >
-                  Create account
-                </a>
-              </div>
-
               <div class="ml-4 flow-root lg:ml-6">
-                <a href="#" class="group -m-2 flex items-center p-2">
+                <Link href="/carts" class="group -m-2 flex items-center p-2">
                   <svg
                     class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     fill="none"
@@ -101,7 +74,7 @@ export const Navbar = component$(() => {
                     0
                   </span>
                   <span class="sr-only">items in cart, view bag</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
