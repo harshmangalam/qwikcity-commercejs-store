@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { CartItem } from "./cart-item";
+import { Link } from "@builder.io/qwik-city";
 
 export default component$(() => {
   return (
@@ -30,24 +31,21 @@ export default component$(() => {
           Shipping and taxes calculated at checkout.
         </p>
         <div class="mt-6">
-          <a
-            href="#"
+          <Link
+            href="/checkout"
             class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
           >
             Checkout
-          </a>
+          </Link>
         </div>
         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-          <p>
-            or
-            <button
-              type="button"
-              class="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Continue Shopping
-              <span aria-hidden="true"> &rarr;</span>
-            </button>
-          </p>
+          <Link
+            href="/products"
+            class="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Continue Shopping
+            <span aria-hidden="true"> &rarr;</span>
+          </Link>
         </div>
       </div>
     </div>
