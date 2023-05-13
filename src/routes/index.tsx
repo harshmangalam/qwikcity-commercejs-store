@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { type DocumentHead } from "@builder.io/qwik-city";
+import { Link, type DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
   return (
@@ -83,12 +83,20 @@ export default component$(() => {
                 </div>
               </div>
 
-              <a
-                href="#"
-                class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
-              >
-                Shop Collection
-              </a>
+              <div class="flex gap-6">
+                <Link
+                  href="/products"
+                  class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
+                >
+                  View Products
+                </Link>
+                <Link
+                  href="/collections"
+                  class="inline-block rounded-md border px-8 py-3 text-center font-medium hover:bg-gray-100"
+                >
+                  View Collection
+                </Link>
+              </div>
             </div>
           </div>
         </div>
