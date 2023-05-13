@@ -1,8 +1,8 @@
 import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { type DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import { ProductItem } from "~/components/product-item";
 
-export default component$(() => {
+export const useProducts = routeLoader$(() => {
   const products = [
     {
       id: 1,
@@ -45,6 +45,14 @@ export default component$(() => {
         "Hand holding black machined steel mechanical pencil with brass tip and top.",
     },
   ];
+
+  return {
+    products,
+  };
+});
+export default component$(() => {
+  const loader = useProducts();
+  const products = loader.value.products;
   return (
     <div class="bg-white">
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
