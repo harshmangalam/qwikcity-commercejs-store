@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 
 export const CollectionItem = component$(() => {
   return (
@@ -13,10 +14,10 @@ export const CollectionItem = component$(() => {
         />
       </div>
       <h3 class="mt-6 text-sm text-gray-500">
-        <a href="#">
+        <Link href="/products/?collection=desk-and-office">
           <span class="absolute inset-0"></span>
           Desk and Office
-        </a>
+        </Link>
       </h3>
       <p class="text-base font-semibold text-gray-900">
         Work from home accessories

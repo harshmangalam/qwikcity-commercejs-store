@@ -5,7 +5,7 @@ export default component$(() => {
   return (
     <div>
       <Navbar />
-      <main class="">
+      <main class="py-6">
         <Slot />
       </main>
     </div>
