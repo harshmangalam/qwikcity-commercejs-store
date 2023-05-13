@@ -3,7 +3,7 @@ import { CartItem } from "./cart-item";
 
 export default component$(() => {
   return (
-    <div class="max-w-2xl w-full mx-auto shadow border">
+    <div class="max-w-2xl w-full mx-auto shadow border rounded-md">
       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
         <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
           Shopping cart
@@ -21,7 +21,7 @@ export default component$(() => {
         </div>
       </div>
 
-      <div class="border-t border-gray-200 px-4 py-6 sm:px-6 sticky bottom-0 bg-white">
+      <div class="border-t border-gray-200 px-4 py-6 sm:px-6 sticky bottom-0 bg-white rounded-b-md">
         <div class="flex justify-between text-base font-medium text-gray-900">
           <p>Subtotal</p>
           <p>$262.00</p>
