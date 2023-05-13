@@ -1,5 +1,4 @@
 import { component$ } from "@builder.io/qwik";
-import { ImageGallery } from "./image-gallery";
 import { routeLoader$ } from "@builder.io/qwik-city";
 
 export const useProduct = routeLoader$(() => {
