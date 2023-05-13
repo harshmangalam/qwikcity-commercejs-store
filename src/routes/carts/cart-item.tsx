@@ -24,7 +24,13 @@ export const CartItem = component$(() => {
           <p class="mt-1 text-sm text-gray-500">Salmon</p>
         </div>
         <div class="flex flex-1 items-end justify-between text-sm">
-          <p class="text-gray-500">Qty 1</p>
+          <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
 
           <div class="flex">
             <button
