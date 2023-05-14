@@ -8,7 +8,6 @@ import {
 } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
-import { CountryDropdown } from "./country-dropdown";
 
 export const useListCountries = routeLoader$(async () => {
   const data = await commerce.services.localeListCountries();
@@ -27,7 +26,11 @@ export const useListSubDivisions = routeAction$(
 
 export default component$(() => {
   const countriesLoader = useListCountries();
+  const subdivisonsLoader = useListSubDivisions();
 
+  const states = (subdivisonsLoader.value as any) || {};
+
+  console.log(states);
   return (
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
       <div>
@@ -79,16 +82,32 @@ export default component$(() => {
               id="city"
             />
           </label>
-
-          <CountryDropdown />
+          <label for="country" class="flex flex-col space-y-2">
+            <span class="text-gray-700">Country</span>
+            <select
+              name="country"
+              id="country"
+              disabled={subdivisonsLoader.isRunning}
+              onChange$={(e) =>
+                subdivisonsLoader.submit({ countryCode: e.target.value })
+              }
+            >
+              {Object.keys(countriesLoader.value).map((key) => (
+                <option key={key} value={key}>
+                  {countriesLoader.value[key]}
+                </option>
+              ))}
+            </select>
+          </label>
           <label for="state" class="flex flex-col space-y-2">
             <span class="text-gray-700">State</span>
-            <input
-              class="w-full rounded-md"
-              type="text"
-              name="state"
-              id="state"
-            />
+            <select name="state" id="state">
+              {Object.keys(states).map((key) => (
+                <option key={key} value={key}>
+                  {states[key]}
+                </option>
+              ))}
+            </select>
           </label>
           <label for="pinCode" class="flex flex-col space-y-2">
             <span class="text-gray-700">Pin code</span>
