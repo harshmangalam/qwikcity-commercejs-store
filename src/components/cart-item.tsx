@@ -1,7 +1,9 @@
 import { component$ } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
+import { Form, Link } from "@builder.io/qwik-city";
+import { useRemoveFromCart } from "~/routes/carts";
 
 interface CartItemProps {
+  id: string;
   productId: string;
   isCheckout?: boolean;
   name: string;
@@ -11,6 +13,7 @@ interface CartItemProps {
 }
 export const CartItem = component$((props: CartItemProps) => {
   const {
+    id,
     productId,
     isCheckout = false,
     name,
@@ -18,6 +21,8 @@ export const CartItem = component$((props: CartItemProps) => {
     imageSrc,
     quantity,
   } = props;
+
+  const removeFromCartAction = useRemoveFromCart();
   return (
     <li class="flex py-6">
       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -51,12 +56,16 @@ export const CartItem = component$((props: CartItemProps) => {
             </select>
 
             <div class="flex">
-              <button
-                type="button"
-                class="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Remove
-              </button>
+              <Form action={removeFromCartAction}>
+                <input type="hidden" name="id" value={id} />
+                <button
+                  type="submit"
+                  class="font-medium text-indigo-600 hover:text-indigo-500 disabled:text-indigo-600/60"
+                  disabled={removeFromCartAction.isRunning}
+                >
+                  Remove
+                </button>
+              </Form>
             </div>
           </div>
         )}

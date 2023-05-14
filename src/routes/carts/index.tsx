@@ -1,6 +1,12 @@
 import { component$ } from "@builder.io/qwik";
 
-import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import {
+  Link,
+  routeAction$,
+  routeLoader$,
+  z,
+  zod$,
+} from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
 
@@ -8,8 +14,24 @@ export const useCart = routeLoader$(async () => {
   const cart = await commerce.cart.retrieve();
   return cart;
 });
+
+export const useRemoveFromCart = routeAction$(
+  async ({ id }, { redirect }) => {
+    try {
+      await commerce.cart.remove(id);
+      redirect(303, "/carts");
+    } catch (error) {
+      console.log(error);
+      redirect(303, "/carts");
+    }
+  },
+  zod$({
+    id: z.string().nonempty("Item id is required"),
+  })
+);
 export default component$(() => {
   const cartLoader = useCart();
+
   const cart = cartLoader.value;
   return (
     <div class="max-w-2xl w-full mx-auto shadow border rounded-md">
@@ -28,6 +50,7 @@ export default component$(() => {
                 price={item.line_total.formatted_with_symbol}
                 imageSrc={item.image?.url as string}
                 quantity={item.quantity}
+                id={item.id}
               />
             ))}
           </ul>
