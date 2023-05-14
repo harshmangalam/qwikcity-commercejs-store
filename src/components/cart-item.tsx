@@ -1,6 +1,8 @@
 import { component$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 
 interface CartItemProps {
+  productId: string;
   isCheckout?: boolean;
   name: string;
   price: string;
@@ -8,7 +10,14 @@ interface CartItemProps {
   quantity: number;
 }
 export const CartItem = component$((props: CartItemProps) => {
-  const { isCheckout = false, name, price, imageSrc, quantity } = props;
+  const {
+    productId,
+    isCheckout = false,
+    name,
+    price,
+    imageSrc,
+    quantity,
+  } = props;
   return (
     <li class="flex py-6">
       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -25,7 +34,7 @@ export const CartItem = component$((props: CartItemProps) => {
         <div>
           <div class="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="#">{name}</a>
+              <Link href={`/products/${productId}`}>{name}</Link>
             </h3>
             <p class="ml-4">{price}</p>
           </div>

@@ -22,13 +22,14 @@ export default component$(() => {
 
         <div class="mt-8">
           <ul role="list" class="-my-6 divide-y divide-gray-200">
-            {cart.line_items.map((product) => (
+            {cart.line_items.map((item) => (
               <CartItem
-                key={product.id}
-                name={product.product_name}
-                price={product.price.formatted_with_symbol}
-                imageSrc={product.image?.url as string}
-                quantity={product.quantity}
+                key={item.id}
+                productId={item.product_id}
+                name={item.product_name}
+                price={item.price.formatted_with_symbol}
+                imageSrc={item.image?.url as string}
+                quantity={item.quantity}
               />
             ))}
           </ul>
