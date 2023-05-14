@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
-import { CartItem } from "./cart-item";
+
 import { Link } from "@builder.io/qwik-city";
+import { CartItem } from "~/components/cart-item";
 
 export default component$(() => {
   return (
