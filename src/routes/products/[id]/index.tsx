@@ -78,6 +78,6 @@ export const head: DocumentHead = ({ resolveValue }) => {
   const product = resolveValue(useProduct);
 
   return {
-    title: `Product | ${product.name}`,
+    title: product.name,
   };
 };

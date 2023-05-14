@@ -1,4 +1,5 @@
 import { component$ } from "@builder.io/qwik";
+import { type DocumentHead } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 
 export default component$(() => {
@@ -127,3 +128,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Checkout",
+};

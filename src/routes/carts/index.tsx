@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 
 import {
+  type DocumentHead,
   Link,
   routeAction$,
   routeLoader$,
@@ -111,3 +112,7 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = {
+  title: "Cart",
+};
