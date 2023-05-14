@@ -22,11 +22,13 @@ export default component$(() => {
                 aria-hidden="true"
                 class="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
               >
-                <div class="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+                <div class="absolute transform sm:left-1/2 hidden sm:block sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
                   <div class="flex items-center space-x-6 lg:space-x-8">
                     <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div class="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -34,6 +36,8 @@ export default component$(() => {
                       </div>
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -43,6 +47,8 @@ export default component$(() => {
                     <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -50,6 +56,8 @@ export default component$(() => {
                       </div>
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -57,6 +65,8 @@ export default component$(() => {
                       </div>
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -66,6 +76,8 @@ export default component$(() => {
                     <div class="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -73,6 +85,8 @@ export default component$(() => {
                       </div>
                       <div class="h-64 w-44 overflow-hidden rounded-lg">
                         <img
+                          width={"100%"}
+                          height={"100%"}
                           src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
                           alt=""
                           class="h-full w-full object-cover object-center"
@@ -83,7 +97,7 @@ export default component$(() => {
                 </div>
               </div>
 
-              <div class="flex gap-6">
+              <div class="flex sm:flex-row flex-col gap-6">
                 <Link
                   href="/products"
                   class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
