@@ -26,7 +26,7 @@ export default component$(() => {
             />
           </label>
           <label for="lastName" class="flex flex-col space-y-2">
-            <span class="text-gray-700">First name</span>
+            <span class="text-gray-700">Last name</span>
             <input
               class="w-full rounded-md"
               type="text"
@@ -38,7 +38,7 @@ export default component$(() => {
             <span class="text-gray-700">Address</span>
             <textarea
               class="w-full rounded-md"
-              rows={3}
+              rows={4}
               name="address"
               id="address"
             />
@@ -93,12 +93,12 @@ export default component$(() => {
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 shadow border rounded-md">
         <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-          Shopping cart
+          Order summary
         </h2>
 
         <ul role="list" class="divide-y divide-gray-200">
-          <CartItem />
-          <CartItem />
+          <CartItem isCheckout />
+          <CartItem isCheckout />
         </ul>
         <div class="border-t border-gray-200">
           <ul class="flex flex-col space-y-4 mt-4">
@@ -119,7 +119,7 @@ export default component$(() => {
 
           <div class="mt-6">
             <button class="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-              Confirm order
+              Pay $279
             </button>
           </div>
         </div>

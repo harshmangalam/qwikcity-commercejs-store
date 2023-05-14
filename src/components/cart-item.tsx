@@ -1,6 +1,10 @@
 import { component$ } from "@builder.io/qwik";
 
-export const CartItem = component$(() => {
+interface CartItemProps {
+  isCheckout?: boolean;
+}
+export const CartItem = component$((props: CartItemProps) => {
+  const { isCheckout = false } = props;
   return (
     <li class="flex py-6">
       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -23,24 +27,26 @@ export const CartItem = component$(() => {
           </div>
           <p class="mt-1 text-sm text-gray-500">Salmon</p>
         </div>
-        <div class="flex flex-1 items-end justify-between text-sm">
-          <select class="py-1 text-sm rounded-md">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+        {!isCheckout && (
+          <div class="flex flex-1 items-end justify-between text-sm">
+            <select class="py-1 text-sm rounded-md">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
 
-          <div class="flex">
-            <button
-              type="button"
-              class="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Remove
-            </button>
+            <div class="flex">
+              <button
+                type="button"
+                class="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </li>
   );
