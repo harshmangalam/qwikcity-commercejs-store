@@ -27,20 +27,12 @@ export default component$(() => {
                 <ImageGallery />
               </div>
 
-              <div class="flex sm:flex-row flex-col gap-6">
-                <Link
-                  href="/products"
-                  class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
-                >
-                  View Products
-                </Link>
-                <Link
-                  href="/collections"
-                  class="inline-block rounded-md border px-8 py-3 text-center font-medium hover:bg-gray-100"
-                >
-                  View Collections
-                </Link>
-              </div>
+              <Link
+                href="/products"
+                class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
+              >
+                View Products
+              </Link>
             </div>
           </div>
         </div>
