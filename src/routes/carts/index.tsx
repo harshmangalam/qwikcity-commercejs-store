@@ -1,9 +1,18 @@
 import { component$ } from "@builder.io/qwik";
 
-import { Link } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
+import commerce from "~/lib/commerce";
 
+export const useCart = routeLoader$(async () => {
+  const cart = await commerce.cart.retrieve();
+  return {
+    cart,
+  };
+});
 export default component$(() => {
+  const cartLoader = useCart();
+  const cart = cartLoader.value.cart;
   return (
     <div class="max-w-2xl w-full mx-auto shadow border rounded-md">
       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -13,12 +22,15 @@ export default component$(() => {
 
         <div class="mt-8">
           <ul role="list" class="-my-6 divide-y divide-gray-200">
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
+            {cart.line_items.map((product) => (
+              <CartItem
+                key={product.id}
+                name={product.product_name}
+                price={product.price.formatted_with_symbol}
+                imageSrc={product.image?.url as string}
+                quantity={product.quantity}
+              />
+            ))}
           </ul>
         </div>
       </div>
@@ -26,7 +38,7 @@ export default component$(() => {
       <div class="border-t border-gray-200 px-4 py-6 sm:px-6 sticky bottom-0 bg-white rounded-b-md">
         <div class="flex justify-between text-base font-medium text-gray-900">
           <p>Subtotal</p>
-          <p>$262.00</p>
+          <p>{cart.subtotal.formatted_with_symbol}</p>
         </div>
         <p class="mt-0.5 text-sm text-gray-500">
           Shipping and taxes calculated at checkout.

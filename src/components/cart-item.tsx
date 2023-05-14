@@ -2,15 +2,19 @@ import { component$ } from "@builder.io/qwik";
 
 interface CartItemProps {
   isCheckout?: boolean;
+  name: string;
+  price: string;
+  imageSrc: string;
+  quantity: number;
 }
 export const CartItem = component$((props: CartItemProps) => {
-  const { isCheckout = false } = props;
+  const { isCheckout = false, name, price, imageSrc, quantity } = props;
   return (
     <li class="flex py-6">
       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
         <img
-          src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg"
-          alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
+          src={imageSrc}
+          alt={name}
           class="h-full w-full object-cover object-center"
           width="100%"
           height="100%"
@@ -21,15 +25,15 @@ export const CartItem = component$((props: CartItemProps) => {
         <div>
           <div class="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="#">Throwback Hip Bag</a>
+              <a href="#">{name}</a>
             </h3>
-            <p class="ml-4">$90.00</p>
+            <p class="ml-4">{price}</p>
           </div>
           <p class="mt-1 text-sm text-gray-500">Salmon</p>
         </div>
         {!isCheckout && (
           <div class="flex flex-1 items-end justify-between text-sm">
-            <select class="py-1 text-sm rounded-md">
+            <select value={quantity} class="py-1 text-sm rounded-md">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
