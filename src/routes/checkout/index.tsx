@@ -8,6 +8,7 @@ import {
 } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
+import { CountryDropdown } from "./country-dropdown";
 
 export const useListCountries = routeLoader$(async () => {
   const data = await commerce.services.localeListCountries();
@@ -78,16 +79,8 @@ export default component$(() => {
               id="city"
             />
           </label>
-          <label for="country" class="flex flex-col space-y-2">
-            <span class="text-gray-700">Country</span>
-            <select name="country" id="country">
-              {Object.keys(countriesLoader.value).map((key) => (
-                <option key={key} value={key}>
-                  {countriesLoader.value[key]}
-                </option>
-              ))}
-            </select>
-          </label>
+
+          <CountryDropdown />
           <label for="state" class="flex flex-col space-y-2">
             <span class="text-gray-700">State</span>
             <input
