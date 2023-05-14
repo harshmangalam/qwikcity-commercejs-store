@@ -49,16 +49,25 @@ export const CartItem = component$((props: CartItemProps) => {
         </div>
         {!isCheckout && (
           <div class="flex flex-1 items-end justify-between text-sm">
-            <Form action={updateCartAction}>
-              <input type="hidden" name="id" value={id} />
-              <select name="quantity" id="quantity" value={quantity}>
-                {[...new Array(qtyOptions)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {`${i + 1}`}
-                  </option>
-                ))}
-              </select>
-            </Form>
+            <select
+              name="quantity"
+              id="quantity"
+              class="text-sm rounded-md py-1"
+              value={quantity}
+              disabled={updateCartAction.isRunning}
+              onChange$={(e) =>
+                updateCartAction.submit({
+                  id,
+                  quantity: Number(e.target.value),
+                })
+              }
+            >
+              {[...new Array(qtyOptions)].map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {`${i + 1}`}
+                </option>
+              ))}
+            </select>
 
             <div class="flex">
               <Form action={removeFromCartAction}>
