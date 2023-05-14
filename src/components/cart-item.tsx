@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import { Form, Link } from "@builder.io/qwik-city";
-import { useRemoveFromCart } from "~/routes/carts";
+import { useRemoveFromCart, useUpdateCart } from "~/routes/carts";
 
 interface CartItemProps {
   id: string;
@@ -22,7 +22,9 @@ export const CartItem = component$((props: CartItemProps) => {
     quantity,
   } = props;
 
+  const qtyOptions = (quantity ?? 1) + 5;
   const removeFromCartAction = useRemoveFromCart();
+  const updateCartAction = useUpdateCart();
   return (
     <li class="flex py-6">
       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -47,17 +49,25 @@ export const CartItem = component$((props: CartItemProps) => {
         </div>
         {!isCheckout && (
           <div class="flex flex-1 items-end justify-between text-sm">
-            <select value={quantity} class="py-1 text-sm rounded-md">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+            <Form action={updateCartAction}>
+              <input type="hidden" name="id" value={id} />
+              <select name="quantity" id="quantity" value={quantity}>
+                {[...new Array(qtyOptions)].map((_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {`${i + 1}`}
+                  </option>
+                ))}
+              </select>
+            </Form>
 
             <div class="flex">
               <Form action={removeFromCartAction}>
-                <input type="hidden" name="id" value={id} />
+                <input
+                  type="hidden"
+                  name="id"
+                  value={id}
+                  class="py-1 rounded-md text-sm"
+                />
                 <button
                   type="submit"
                   class="font-medium text-indigo-600 hover:text-indigo-500 disabled:text-indigo-600/60"

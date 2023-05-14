@@ -29,6 +29,24 @@ export const useRemoveFromCart = routeAction$(
     id: z.string().nonempty("Item id is required"),
   })
 );
+
+export const useUpdateCart = routeAction$(
+  async ({ id, quantity }, { redirect }) => {
+    try {
+      await commerce.cart.update(id, {
+        quantity,
+      });
+      redirect(303, "/carts");
+    } catch (error) {
+      console.log(error);
+      redirect(303, "/carts");
+    }
+  },
+  zod$({
+    id: z.string().nonempty("Item id is required"),
+    quantity: z.number().min(1).max(5),
+  })
+);
 export default component$(() => {
   const cartLoader = useCart();
 
@@ -41,19 +59,23 @@ export default component$(() => {
         </h2>
 
         <div class="mt-8">
-          <ul role="list" class="-my-6 divide-y divide-gray-200">
-            {cart.line_items.map((item) => (
-              <CartItem
-                key={item.id}
-                productId={item.product_id}
-                name={item.product_name}
-                price={item.line_total.formatted_with_symbol}
-                imageSrc={item.image?.url as string}
-                quantity={item.quantity}
-                id={item.id}
-              />
-            ))}
-          </ul>
+          {cart.line_items.length ? (
+            <ul role="list" class="-my-6 divide-y divide-gray-200">
+              {cart.line_items.map((item) => (
+                <CartItem
+                  key={item.id}
+                  productId={item.product_id}
+                  name={item.product_name}
+                  price={item.line_total.formatted_with_symbol}
+                  imageSrc={item.image?.url as string}
+                  quantity={item.quantity}
+                  id={item.id}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p class=" text-gray-600">Empty cart</p>
+          )}
         </div>
       </div>
 
@@ -66,12 +88,14 @@ export default component$(() => {
           Shipping and taxes calculated at checkout.
         </p>
         <div class="mt-6">
-          <Link
-            href="/checkout"
-            class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-          >
-            Checkout
-          </Link>
+          {cart.line_items.length ? (
+            <Link
+              href="/checkout"
+              class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            >
+              Checkout
+            </Link>
+          ) : null}
         </div>
         <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
           <Link
