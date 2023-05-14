@@ -9,12 +9,13 @@ export default component$(() => {
         <div class="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
           <div class="sm:max-w-lg">
             <h1 class="font text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Qwik store are finally here
+              Green Up Your Living Space
             </h1>
             <p class="mt-4 text-xl text-gray-500">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta
-              explicabo architecto sapiente accusantium rerum, enim velit eos
-              eaque. Quo, animi?
+              Welcome to our plant store, your one-stop destination for all
+              things green and beautiful. Our hand-picked selection of plants
+              and accessories are carefully chosen to enhance your living space
+              and bring nature indoors
             </p>
           </div>
           <div>
