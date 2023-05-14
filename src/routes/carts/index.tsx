@@ -6,13 +6,11 @@ import commerce from "~/lib/commerce";
 
 export const useCart = routeLoader$(async () => {
   const cart = await commerce.cart.retrieve();
-  return {
-    cart,
-  };
+  return cart;
 });
 export default component$(() => {
   const cartLoader = useCart();
-  const cart = cartLoader.value.cart;
+  const cart = cartLoader.value;
   return (
     <div class="max-w-2xl w-full mx-auto shadow border rounded-md">
       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -27,7 +25,7 @@ export default component$(() => {
                 key={item.id}
                 productId={item.product_id}
                 name={item.product_name}
-                price={item.price.formatted_with_symbol}
+                price={item.line_total.formatted_with_symbol}
                 imageSrc={item.image?.url as string}
                 quantity={item.quantity}
               />
