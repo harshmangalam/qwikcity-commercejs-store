@@ -9,9 +9,14 @@ import {
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
 
-export const useListCountries = routeLoader$(async () => {
-  const data = await commerce.services.localeListCountries();
-  return data.countries;
+export const useListServices = routeLoader$(async () => {
+  const countriesData = await commerce.services.localeListCountries();
+  const first = Object.keys(countriesData.countries)[0];
+  const subdivionsData = await commerce.services.localeListSubdivisions(first);
+  return {
+    countries: countriesData.countries,
+    subdivions: subdivionsData.subdivisions,
+  };
 });
 
 export const useListSubDivisions = routeAction$(
@@ -25,12 +30,11 @@ export const useListSubDivisions = routeAction$(
 );
 
 export default component$(() => {
-  const countriesLoader = useListCountries();
+  const servicesLoader = useListServices();
+  const countries = servicesLoader.value.countries;
   const subdivisonsLoader = useListSubDivisions();
-
-  const states = (subdivisonsLoader.value as any) || {};
-
-  console.log(states);
+  const states =
+    (subdivisonsLoader.value as any) || servicesLoader.value.subdivions || {};
   return (
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
       <div>
@@ -73,15 +77,6 @@ export default component$(() => {
             />
           </label>
 
-          <label for="city" class="flex flex-col space-y-2">
-            <span class="text-gray-700">City</span>
-            <input
-              class="w-full rounded-md"
-              type="text"
-              name="city"
-              id="city"
-            />
-          </label>
           <label for="country" class="flex flex-col space-y-2">
             <span class="text-gray-700">Country</span>
             <select
@@ -92,9 +87,9 @@ export default component$(() => {
                 subdivisonsLoader.submit({ countryCode: e.target.value })
               }
             >
-              {Object.keys(countriesLoader.value).map((key) => (
+              {Object.keys(countries).map((key) => (
                 <option key={key} value={key}>
-                  {countriesLoader.value[key]}
+                  {countries[key]}
                 </option>
               ))}
             </select>
@@ -108,6 +103,15 @@ export default component$(() => {
                 </option>
               ))}
             </select>
+          </label>
+          <label for="city" class="flex flex-col space-y-2">
+            <span class="text-gray-700">City</span>
+            <input
+              class="w-full rounded-md"
+              type="text"
+              name="city"
+              id="city"
+            />
           </label>
           <label for="pinCode" class="flex flex-col space-y-2">
             <span class="text-gray-700">Pin code</span>
