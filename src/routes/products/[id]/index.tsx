@@ -1,23 +1,12 @@
 import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
+import commerce from "~/lib/commerce";
 
-export const useProduct = routeLoader$(() => {
-  const product = {
-    id: 1,
-    name: "Earthen Bottle",
-    href: "#",
-    price: "$48",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-    imageAlt:
-      "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
-    description: ` The Basic Tee 6-Pack allows you to fully express your vibrant
-      personality with three grayscale options. Feeling adventurous?
-      Put on a heather gray tee. Want to be a trendsetter? Try our
-      exclusive colorway. Need to add an extra
-      pop of color to your outfit? Our white tee has you covered.`,
-  };
-
+export const useProduct = routeLoader$(async ({ params, error }) => {
+  const product = await commerce.products.retrieve(params.id);
+  if (!product) {
+    throw error(404, "Plant not found");
+  }
   return {
     product,
   };
@@ -29,8 +18,8 @@ export default component$(() => {
     <div class="grid max-w-5xl mx-auto w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
       <div class="rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-6">
         <img
-          src={product.imageSrc}
-          alt={product.imageAlt}
+          src={product.assets[0].url}
+          alt={product.name}
           class="object-cover object-center"
           width="100%"
           height="100%"
@@ -38,7 +27,9 @@ export default component$(() => {
       </div>
       <div class="sm:col-span-8 lg:col-span-6 flex flex-col space-y-4">
         <h2 class="text-2xl font-bold text-gray-900">{product.name}</h2>
-        <p class="text-2xl text-gray-900">{product.price}</p>
+        <p class="text-2xl text-gray-900">
+          {product.price.formatted_with_symbol}
+        </p>
 
         <button
           type="submit"
@@ -49,7 +40,10 @@ export default component$(() => {
 
         <div class="flex flex-col space-y-2">
           <h4 class="text-lg">Description</h4>
-          <p class=" text-gray-600">{product.description}</p>
+          <p
+            class=" text-gray-600"
+            dangerouslySetInnerHTML={product.description}
+          />
         </div>
       </div>
     </div>

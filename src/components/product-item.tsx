@@ -5,12 +5,12 @@ interface ProductItemProps {
   imageSrc: string;
   name: string;
   price: string;
-  sku: string;
+  id: string;
 }
 export const ProductItem = component$((props: ProductItemProps) => {
-  const { sku, imageSrc, name, price } = props;
+  const { id, imageSrc, name, price } = props;
   return (
-    <Link href={`/products/${sku}`} class="group">
+    <Link href={`/products/${id}`} class="group">
       <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
         <img
           src={imageSrc}

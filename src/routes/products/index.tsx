@@ -30,7 +30,7 @@ export default component$(() => {
         {products?.map((product) => (
           <ProductItem
             key={product.id}
-            sku={product.sku as string}
+            id={product.id}
             name={product.name}
             imageSrc={product.assets[0].url}
             price={product.price.formatted_with_symbol}
