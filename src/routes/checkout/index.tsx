@@ -1,12 +1,29 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
+import {
+  routeLoader$,
+  type DocumentHead,
+  zod$,
+  z,
+  routeAction$,
+} from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
 
 export const useListCountries = routeLoader$(async () => {
-  const countries = await commerce.services.localeListCountries();
-  return countries.countries;
+  const data = await commerce.services.localeListCountries();
+  return data.countries;
 });
+
+export const useListSubDivisions = routeAction$(
+  async ({ countryCode }) => {
+    const data = await commerce.services.localeListSubdivisions(countryCode);
+    return data.subdivisions;
+  },
+  zod$({
+    countryCode: z.string().nonempty("Country code is required"),
+  })
+);
+
 export default component$(() => {
   const countriesLoader = useListCountries();
 
