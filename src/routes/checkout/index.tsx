@@ -1,8 +1,15 @@
 import { component$ } from "@builder.io/qwik";
-import { type DocumentHead } from "@builder.io/qwik-city";
+import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
+import commerce from "~/lib/commerce";
 
+export const useListCountries = routeLoader$(async () => {
+  const countries = await commerce.services.localeListCountries();
+  return countries.countries;
+});
 export default component$(() => {
+  const countriesLoader = useListCountries();
+
   return (
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
       <div>
@@ -56,12 +63,13 @@ export default component$(() => {
           </label>
           <label for="country" class="flex flex-col space-y-2">
             <span class="text-gray-700">Country</span>
-            <input
-              class="w-full rounded-md"
-              type="text"
-              name="country"
-              id="country"
-            />
+            <select name="country" id="country">
+              {Object.keys(countriesLoader.value).map((key) => (
+                <option key={key} value={key}>
+                  {countriesLoader.value[key]}
+                </option>
+              ))}
+            </select>
           </label>
           <label for="state" class="flex flex-col space-y-2">
             <span class="text-gray-700">State</span>
