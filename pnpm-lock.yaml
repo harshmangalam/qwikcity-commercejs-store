@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  '@chec/commerce.js':
+    specifier: ^2.8.0
+    version: 2.8.0
+
 devDependencies:
   '@builder.io/qwik':
     specifier: ^1.1.1
@@ -55,6 +60,13 @@ devDependencies:
 
 packages:
 
+  /@babel/runtime@7.21.5:
+    resolution: {integrity: sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
+    dev: false
+
   /@builder.io/qwik-city@1.1.1:
     resolution: {integrity: sha512-zF+hCFuugnYAWMG3UGBXo02AZiMpZsTnohCifLM+f0508YHEhWC0QzO2Y1LcyFxo8JVM89uzWNobJMrcF7G3jw==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
@@ -77,6 +89,15 @@ packages:
     dependencies:
       undici: 5.22.0
     dev: true
+
+  /@chec/commerce.js@2.8.0:
+    resolution: {integrity: sha512-OPBphT/hU33iDp52zzYOqz/oSXLhEuhGVUg2UNvYtmBW4eCNmtsM0dqW0+wu+6K0d6fZojurCBdVQMKb2R7l3g==}
+    dependencies:
+      '@babel/runtime': 7.21.5
+      axios: 0.21.4
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /@esbuild/android-arm64@0.17.19:
     resolution: {integrity: sha512-KBMWvEZooR7+kzY0BtbTQn0OAYY7CsiydT63pVEaPtVYF0hXbUaOyZog37DKxK7NF3XacBJOpYT4adIJh+avxA==}
@@ -720,6 +741,14 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
     dev: true
@@ -1255,6 +1284,16 @@ packages:
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
+
+  /follow-redirects@1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -2433,6 +2472,10 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
+
+  /regenerator-runtime@0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: false
 
   /regexp.prototype.flags@1.5.0:
     resolution: {integrity: sha512-0SutC3pNudRKgquxGoRGIz946MZVHqbNfPjBdxeOhBrdgDKlRoXmYLQN9xRbrR09ZXWeGAdPuif7egofn6v5LA==}
