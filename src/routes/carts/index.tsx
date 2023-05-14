@@ -33,12 +33,10 @@ export const useRemoveFromCart = routeAction$(
 export const useUpdateCart = routeAction$(
   async ({ id, quantity }, { redirect }) => {
     try {
-      const data = await commerce.cart.update(id, {
+      await commerce.cart.update(id, {
         quantity,
       });
-      if (data) {
-        await commerce.cart.refresh();
-      }
+      await commerce.cart.refresh();
       redirect(303, "/carts");
     } catch (error) {
       console.log(error);

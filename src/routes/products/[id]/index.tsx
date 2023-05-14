@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 import {
+  type DocumentHead,
   Form,
   routeAction$,
   routeLoader$,
@@ -14,9 +15,7 @@ export const useProduct = routeLoader$(async ({ params, error }) => {
   if (!product) {
     throw error(404, "Plant not found");
   }
-  return {
-    product,
-  };
+  return product;
 });
 
 export const useAddToCart = routeAction$(
@@ -36,7 +35,7 @@ export const useAddToCart = routeAction$(
 export default component$(() => {
   const productLoader = useProduct();
   const addToCartAction = useAddToCart();
-  const product = productLoader.value.product;
+  const product = productLoader.value;
   return (
     <div class="grid max-w-5xl mx-auto w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
       <div class="rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-6">
@@ -74,3 +73,11 @@ export default component$(() => {
     </div>
   );
 });
+
+export const head: DocumentHead = ({ resolveValue }) => {
+  const product = resolveValue(useProduct);
+
+  return {
+    title: `Product | ${product.name}`,
+  };
+};

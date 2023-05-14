@@ -42,5 +42,5 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Home",
+  title: "Products",
 };
