@@ -11,8 +11,7 @@ import commerce from "~/lib/commerce";
 
 export const useListServices = routeLoader$(async () => {
   const countriesData = await commerce.services.localeListCountries();
-  const first = Object.keys(countriesData.countries)[0];
-  const subdivionsData = await commerce.services.localeListSubdivisions(first);
+  const subdivionsData = await commerce.services.localeListSubdivisions("IN");
   return {
     countries: countriesData.countries,
     subdivions: subdivionsData.subdivisions,
@@ -26,6 +25,16 @@ export const useListSubDivisions = routeAction$(
   },
   zod$({
     countryCode: z.string().nonempty("Country code is required"),
+  })
+);
+
+export const useShippingOptions = routeAction$(
+  async ({ country, subdivion }) => {
+    const shippings = await commerce.checkout.getShippingOptions()
+  },
+  zod$({
+    country: z.string(),
+    subdivion: z.string(),
   })
 );
 
@@ -88,7 +97,7 @@ export default component$(() => {
               }
             >
               {Object.keys(countries).map((key) => (
-                <option key={key} value={key}>
+                <option key={key} value={key} selected={key === "IN"}>
                   {countries[key]}
                 </option>
               ))}
@@ -98,7 +107,7 @@ export default component$(() => {
             <span class="text-gray-700">State</span>
             <select name="state" id="state">
               {Object.keys(states).map((key) => (
-                <option key={key} value={key}>
+                <option key={key} value={key} selected={key === "BR"}>
                   {states[key]}
                 </option>
               ))}
