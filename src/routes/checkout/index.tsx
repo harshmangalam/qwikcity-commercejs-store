@@ -1,13 +1,26 @@
-import { component$ } from "@builder.io/qwik";
+import {
+  type NoSerialize,
+  component$,
+  noSerialize,
+  useSignal,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import {
   routeLoader$,
   type DocumentHead,
   zod$,
   z,
   routeAction$,
+  Form,
 } from "@builder.io/qwik-city";
 import { CartItem } from "~/components/cart-item";
 import commerce from "~/lib/commerce";
+import {
+  type Stripe,
+  type StripeCardElement,
+  loadStripe,
+} from "@stripe/stripe-js";
+import { Button } from "~/components/button";
 
 export const useListServices = routeLoader$(async () => {
   const countriesData = await commerce.services.localeListCountries();
@@ -28,26 +41,122 @@ export const useListSubDivisions = routeAction$(
   })
 );
 
-export const useShippingOptions = routeAction$(
-  async ({ country, subdivion }) => {
-    const shippings = await commerce.checkout.getShippingOptions()
+export const useCreateOrder = routeAction$(
+  async ({
+    address,
+    country,
+    city,
+    email,
+    firstName,
+    lastName,
+    phone,
+    pinCode,
+    state,
+    stripePaymentId,
+    checkoutTokenId,
+  }) => {
+    const token = await commerce.checkout.getToken(checkoutTokenId);
+
+    const order = await commerce.checkout.capture(checkoutTokenId, {
+      line_items: token.live.line_items,
+      customer: {
+        email,
+        firstname: firstName,
+        lastname: lastName,
+        phone,
+      },
+      shipping: {
+        name: "Primary",
+        street: address,
+        country,
+        town_city: city,
+        postal_zip_code: pinCode,
+        county_state: state,
+      },
+      fulfillment: {
+        shipping_method: "",
+      },
+      payment: {
+        gateway: "stripe",
+        stripe: {
+          payment_method_id: stripePaymentId,
+        },
+      },
+    });
+
+    console.log(order);
   },
   zod$({
+    email: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    address: z.string(),
     country: z.string(),
-    subdivion: z.string(),
+    city: z.string(),
+    state: z.string(),
+    pinCode: z.string(),
+    phone: z.string(),
+    stripePaymentId: z.string(),
+    checkoutTokenId: z.string(),
   })
 );
+
+export const useCheckout = routeLoader$(async () => {
+  const cart = await commerce.cart.retrieve();
+  const token = await commerce.checkout.generateToken(cart.id, {
+    type: "cart",
+  });
+
+  return token;
+});
 
 export default component$(() => {
   const servicesLoader = useListServices();
   const countries = servicesLoader.value.countries;
   const subdivisonsLoader = useListSubDivisions();
+  const checkoutLoader = useCheckout();
+  const createOrderAction = useCreateOrder();
+
   const states =
     (subdivisonsLoader.value as any) || servicesLoader.value.subdivions || {};
+
+  const stripe = useSignal<NoSerialize<Stripe | null>>();
+  const elementRef = useSignal<HTMLDivElement>();
+  const cardElement = useSignal<NoSerialize<StripeCardElement>>();
+
+  useVisibleTask$(async () => {
+    const initStripe = await loadStripe(
+      import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+    );
+
+    if (initStripe) {
+      stripe.value = noSerialize(initStripe);
+    }
+  });
+
+  useVisibleTask$(({ track }) => {
+    track(() => stripe.value);
+
+    if (stripe.value) {
+      const elements = stripe.value.elements();
+      const element = elements.create("card");
+      element.mount(elementRef.value as HTMLDivElement);
+      cardElement.value = noSerialize(element);
+    }
+  });
+
   return (
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+    <Form
+      action={createOrderAction}
+      class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto"
+    >
+      <input
+        type="hidden"
+        name="checkoutTokenId"
+        value={checkoutLoader.value.id}
+      />
       <div>
-        <form class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4">
           <label for="email" class="flex flex-col space-y-2 col-span-2">
             <span class="text-gray-700">Email address</span>
             <input
@@ -140,7 +249,12 @@ export default component$(() => {
               id="phone"
             />
           </label>
-        </form>
+
+          <label for="phone" class="flex flex-col space-y-2 col-span-2">
+            <span class="text-gray-700">Payment</span>
+            <div ref={elementRef}>Stripe</div>
+          </label>
+        </div>
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 shadow border rounded-md">
         <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
@@ -148,34 +262,37 @@ export default component$(() => {
         </h2>
 
         <ul role="list" class="divide-y divide-gray-200">
-          <CartItem isCheckout />
-          <CartItem isCheckout />
+          {checkoutLoader.value.line_items.map((item) => (
+            <CartItem
+              key={item.id}
+              isCheckout
+              id={item.id}
+              imageSrc={(item.image as any)?.url as string}
+              name={item.name}
+              price={item.price.formatted_with_symbol}
+              quantity={item.quantity}
+              productId={item.product_id}
+            />
+          ))}
         </ul>
         <div class="border-t border-gray-200">
           <ul class="flex flex-col space-y-4 mt-4">
             <li class="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
-              <p>$262.00</p>
-            </li>
-            <li class="flex justify-between text-base font-medium text-gray-900">
-              <p>Shipping</p>
-              <p>$10.00</p>
-            </li>
-            <hr />
-            <li class="flex justify-between text-base font-medium text-gray-900">
-              <p>Total</p>
-              <p>$279.00</p>
+              <p>{checkoutLoader.value.live.subtotal.formatted_with_symbol}</p>
             </li>
           </ul>
 
           <div class="mt-6">
-            <button class="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-              Pay $279
-            </button>
+            <Button
+              label={`Pay ${checkoutLoader.value.live.subtotal.formatted_with_symbol}`}
+              isLoading={createOrderAction.isRunning}
+              type="submit"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </Form>
   );
 });
 

@@ -47,7 +47,13 @@ export const CartItem = component$((props: CartItemProps) => {
           </div>
           <p class="mt-1 text-sm text-gray-500">Salmon</p>
         </div>
-        {!isCheckout && (
+
+        {isCheckout ? (
+          <div class="text-sm">
+            <span class="text-gray-500">Quantity: </span>
+            {quantity}
+          </div>
+        ) : (
           <div class="flex flex-1 items-end justify-between text-sm">
             <select
               name="quantity"
